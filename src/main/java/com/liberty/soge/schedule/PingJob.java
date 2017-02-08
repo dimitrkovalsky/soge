@@ -15,6 +15,6 @@ public class PingJob extends QuartzJobBean {
     
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        log.info("CheckPlayerJob, executed");
+        log.info("PingJob, executed");
     }
 }
