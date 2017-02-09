@@ -1,4 +1,4 @@
-package com.liberty.soge.websockets;
+package com.liberty.soge.common;
 
 import lombok.Data;
 

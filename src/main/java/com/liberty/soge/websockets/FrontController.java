@@ -1,5 +1,9 @@
 package com.liberty.soge.websockets;
 
+import com.liberty.soge.action.Action;
+import com.liberty.soge.common.GenericMessage;
+import com.liberty.soge.common.GenericMessageProcessor;
+import com.liberty.soge.common.GenericResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -25,6 +29,13 @@ public class FrontController {
     public int onUpdate(String message) {
         log.info("Message : " + message);
         return 0;
+    }
+
+    private GenericResponse processMessage(String json) {
+        GenericMessageProcessor processor = new GenericMessageProcessor(json);
+
+        Action action = processor.process();
+        return action.execute();
     }
 
     private void sendAll(GenericMessage msg) {

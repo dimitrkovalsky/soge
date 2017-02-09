@@ -1,0 +1,11 @@
+package com.liberty.soge.errors;
+
+/**
+ * Represents fail of operation executing.
+ */
+public class OperationFailedException extends ApplicationException {
+
+  public OperationFailedException(String message) {
+    super(ErrorCode.OPERATION_FAILED_ERROR, message);
+  }
+}
