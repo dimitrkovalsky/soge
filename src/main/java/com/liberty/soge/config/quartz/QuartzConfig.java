@@ -26,7 +26,6 @@ public class QuartzConfig {
         AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
         jobFactory.setApplicationContext(applicationContext);
         scheduler.setJobFactory(jobFactory);
-        
         scheduler.setApplicationContextSchedulerContextKey("applicationContext");
         scheduler.setConfigLocation(new ClassPathResource("quartz.properties"));
         return scheduler;

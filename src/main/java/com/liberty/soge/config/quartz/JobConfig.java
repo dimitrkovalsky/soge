@@ -1,7 +1,6 @@
 package com.liberty.soge.config.quartz;
 
 import com.liberty.soge.schedule.PingJob;
-import org.joda.time.DateTime;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.Trigger;
@@ -45,10 +44,10 @@ public class JobConfig {
         return newTrigger()
                 .forJob(pingJob())
                 .withIdentity("ping_trigger", "generic")
-                .withPriority(50)
                 .withSchedule(simpleSchedule()
-                        .withIntervalInSeconds(1))
-                .startAt(DateTime.now().plusSeconds(2).toDate())
+                        .withIntervalInSeconds(1)
+                        .repeatForever())
+                .startNow()
                 .build();
     }
 
