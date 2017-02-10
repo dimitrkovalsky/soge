@@ -17,3 +17,8 @@
 # Maven #
 log/
 target/
+
+#eclipse#
+.classpath
+/.settings
+.project
