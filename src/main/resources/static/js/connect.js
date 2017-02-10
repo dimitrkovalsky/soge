@@ -1,5 +1,5 @@
 window.connected = false;
-
+var stompClient;
 function onError(error) {
     console.log("Error ", error);
 };
@@ -23,6 +23,7 @@ function onUpdate(frame) {
 
 function sendRequest() {
   var request = $('#requestData').val();
+  stompClient.send(request);
 }
 
 function addLog(msg) {
