@@ -1,9 +1,9 @@
 package com.liberty.soge.websockets;
 
 import com.liberty.soge.action.Action;
-import com.liberty.soge.common.GenericMessage;
 import com.liberty.soge.common.GenericMessageProcessor;
 import com.liberty.soge.common.GenericResponse;
+import com.liberty.soge.notification.NotificationBus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 @Slf4j
-public class FrontController {
+public class FrontController implements NotificationBus {
 
     public static final String TOPIC_NAME = "/topic/live";
 
@@ -38,7 +38,8 @@ public class FrontController {
         return action.execute();
     }
 
-    private void sendAll(GenericMessage msg) {
+    @Override
+    public void sendAll(GenericResponse msg) {
         if (template != null) {
             template.convertAndSend(TOPIC_NAME, msg);
         } else {
@@ -46,16 +47,13 @@ public class FrontController {
         }
     }
 
-    private void sendUser(String user, GenericMessage msg) {
+    @Override
+    public void sendUser(String user, GenericResponse msg) {
         if (template != null) {
             template.convertAndSendToUser(user, TOPIC_NAME, msg);
         } else {
             log.error("Client doesn't connected");
         }
-    }
-
-    public void live(String data) {
-        log.info("Live connected : " + data);
     }
     
 }

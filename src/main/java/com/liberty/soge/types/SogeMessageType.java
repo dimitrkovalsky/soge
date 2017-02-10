@@ -9,7 +9,7 @@ import com.liberty.soge.annotation.Handler;
 
 // TODO: need scan all classes and interfaces marked this annotation
 @ActionTypes
-public interface RequestType {
+public interface SogeMessageType {
     
     @Handler(FirstTestCommand.class)
     int RT_TEST_1 = 1;
@@ -19,5 +19,9 @@ public interface RequestType {
 
     @Handler(RandomTestAction.class)
     int RT_RANDOM_TEST = 3;
+
+
+    int SYSTEM_NOTIFICATION = 700;
+    int SYSTEM_ERROR_NOTIFICATION = 701;
 
 }

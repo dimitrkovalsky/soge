@@ -3,7 +3,7 @@ package com.liberty.soge.common;
 
 import com.liberty.soge.action.Action;
 import com.liberty.soge.annotation.Handler;
-import com.liberty.soge.types.RequestType;
+import com.liberty.soge.types.SogeMessageType;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -17,7 +17,7 @@ public class CommandRegistry {
     static {
         commands = new HashMap<>();
         // TODO: need scan all classes and interfaces marked with ActionTypes annotation
-        Class<RequestType> clazz = RequestType.class;
+        Class<SogeMessageType> clazz = SogeMessageType.class;
         try {
             for (Field field : clazz.getDeclaredFields()) {
                 if (field.isAnnotationPresent(Handler.class))

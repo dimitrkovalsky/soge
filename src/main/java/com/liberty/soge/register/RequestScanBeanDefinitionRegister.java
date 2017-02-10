@@ -1,16 +1,12 @@
 package com.liberty.soge.register;
 
-import java.util.Arrays;
-
+import com.liberty.soge.annotation.EnableRequestScan;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.type.AnnotationMetadata;
-
-import com.liberty.soge.annotation.EnableRequestScan;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class RequestScanBeanDefinitionRegister implements ImportBeanDefinitionRegistrar {
@@ -21,7 +17,7 @@ public class RequestScanBeanDefinitionRegister implements ImportBeanDefinitionRe
         try {
             clazz = Class.forName(importingClassMetadata.getClassName());
         } catch (ClassNotFoundException e) {
-            log.error("error during inirialization", e);
+            log.error("error during initialization", e);
         }
         EnableRequestScan requestScan = clazz.getAnnotation(EnableRequestScan.class);
                 if(requestScan != null) {
