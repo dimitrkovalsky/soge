@@ -20,7 +20,7 @@
 
 <body>
 
-<div class="container">
+<div class="container" style="margin-top:10px">
     <div class="card col-md-10">
         <div class="card-header primary-color white-text">
             SOGE web socket connection
@@ -35,15 +35,15 @@
 
         <h5>Request</h5>
         <div class="md-form">
-            <textarea type="text" id="requestData" class="md-textarea col-md-10">{"messageType":1,"data":null}</textarea>
+            <label for="requestData">Request</label><textarea type="text" id="requestData" class="md-textarea col-md-10">{"messageType":1,"data":null}</textarea>
             <button class="btn btn-info pull-right" id="send_btn" onclick="sendRequest()">Send</button>
         </div>
     </div>
 
     <div class="card col-md-10">
         <div class="card-header blue-grey white-text">Received messages</div>
-        <div class="card-block" style="height: 550px">
-            <ul id="logList" style="height: 500px; overflow: auto">
+        <div class="card-block" style="height: 350px">
+            <ul id="logList" style="height: 300px; overflow: auto">
                 <li> Started</li>
             </ul>
         </div>

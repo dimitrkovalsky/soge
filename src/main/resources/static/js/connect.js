@@ -1,11 +1,11 @@
 window.connected = false;
 var stompClient;
+var socket;
 function onError(error) {
     console.log("Error ", error);
-};
-
+}
 function connect() {
-    var socket = new SockJS('/updates');
+    socket = new SockJS('/updates');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         connected = true;
@@ -14,16 +14,15 @@ function connect() {
         btn.text("Disconnect");
         stompClient.subscribe('/topic/live', onUpdate);
     });
-};
-
+}
 function onUpdate(frame) {
     //var msg = JSON.parse(frame.body);
     addLog(frame.body);
-};
+}
 
 function sendRequest() {
   var request = $('#requestData').val();
-  stompClient.send(request);
+    socket.send(request);
 }
 
 function addLog(msg) {
@@ -31,7 +30,7 @@ function addLog(msg) {
     var logList = $('#logList');
     logList.append('<li>'+msg+'</li>');
     logList.scrollTop  = logList.scrollHeight;
-};
+}
 
 var defaultRequest = {
    messageType: 1,
