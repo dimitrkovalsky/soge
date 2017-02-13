@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 
+import com.liberty.soge.annotation.ActionTypes;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -25,7 +27,16 @@ public class ActionsTypeClassPathScanningCandidateComponentProvider extends Clas
     @Override
     protected boolean isCandidateComponent(AnnotatedBeanDefinition beanDefinition) {
         log.info("candidate = " + beanDefinition);
-        return true;
+        Class<?> clazz = null;
+        try {
+			clazz = Class.forName(beanDefinition.getBeanClassName());
+			if(clazz.getAnnotation(ActionTypes.class) != null) {
+				return true;
+			} 
+		} catch (ClassNotFoundException e) {
+			log.error("error during initialization", e);
+		}
+        return false;
     }
     
     @PostConstruct
