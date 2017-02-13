@@ -6,17 +6,19 @@ import com.liberty.soge.common.GenericResponse;
 import com.liberty.soge.notification.NotificationBus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationListener;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.socket.messaging.SessionConnectedEvent;
 
 /**
  * User: Dimitr Date: 22.05.2016 Time: 21:36
  */
 @Controller
 @Slf4j
-public class FrontController implements NotificationBus {
+public class FrontController implements NotificationBus, ApplicationListener<SessionConnectedEvent> {
 
     public static final String TOPIC_NAME = "/topic/live";
 
@@ -29,6 +31,11 @@ public class FrontController implements NotificationBus {
     public int onUpdate(String message) {
         log.info("Message : " + message);
         return 0;
+    }
+
+    @MessageMapping("/requests")
+    public void onRequest(String message) {
+        log.info("Message on Request: " + message);
     }
 
     private GenericResponse processMessage(String json) {
@@ -55,5 +62,9 @@ public class FrontController implements NotificationBus {
             log.error("Client doesn't connected");
         }
     }
-    
+
+    @Override
+    public void onApplicationEvent(SessionConnectedEvent sessionConnectedEvent) {
+        log.info("On client connected");
+    }
 }
