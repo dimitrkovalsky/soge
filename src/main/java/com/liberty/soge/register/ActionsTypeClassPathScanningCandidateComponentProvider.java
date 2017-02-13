@@ -11,11 +11,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Slf4j
-public class ActionsTypeClassPathScanningCandidateComponentProvider extends ClassPathScanningCandidateComponentProvider {
+public class ActionsTypeClassPathScanningCandidateComponentProvider extends ClassPathScanningCandidateComponentProvider implements ActionsTypeProvider {
     
     private String[] packages;
     
     private Set<BeanDefinition> beanDefinitions;
+    
+    private Set<Class<?>> actionTypes;
     
     public ActionsTypeClassPathScanningCandidateComponentProvider() {
         super(true);
@@ -37,13 +39,20 @@ public class ActionsTypeClassPathScanningCandidateComponentProvider extends Clas
     }
     
     @PostConstruct
-    public void init() {
-        
+    public void init() throws ClassNotFoundException {
+
         beanDefinitions = new HashSet<BeanDefinition>();
-        
-        for(String p : packages) {
+
+        for (String p : packages) {
             beanDefinitions.addAll(findCandidateComponents(p));
         }
+        
+        actionTypes = new HashSet<Class<?>>();
+        
+        for (BeanDefinition bd : beanDefinitions) {
+            actionTypes.add(Class.forName(bd.getBeanClassName()));
+        }
+
         log.info("detected action types" + beanDefinitions);
     }
     
@@ -57,6 +66,11 @@ public class ActionsTypeClassPathScanningCandidateComponentProvider extends Clas
 
     public Set<BeanDefinition> getBeanDefinitions() {
         return beanDefinitions;
+    }
+
+    @Override
+    public Set<Class<?>> getActionTypes() {
+        return actionTypes;
     }
     
 }

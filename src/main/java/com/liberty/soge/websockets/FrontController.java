@@ -1,8 +1,9 @@
 package com.liberty.soge.websockets;
 
 import com.liberty.soge.action.Action;
-import com.liberty.soge.common.GenericMessageProcessor;
+import com.liberty.soge.common.GenericMessageProcessorImpl;
 import com.liberty.soge.common.GenericResponse;
+import com.liberty.soge.common.MessageProcessor;
 import com.liberty.soge.notification.NotificationBus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,9 @@ public class FrontController implements NotificationBus, ApplicationListener<Ses
 
     @Autowired
     private SimpMessagingTemplate template;
-
+    
+    @Autowired
+    private MessageProcessor processor;
 
     @SendTo(TOPIC_NAME)
     @MessageMapping("/updates")
@@ -39,9 +42,7 @@ public class FrontController implements NotificationBus, ApplicationListener<Ses
     }
 
     private GenericResponse processMessage(String json) {
-        GenericMessageProcessor processor = new GenericMessageProcessor(json);
-
-        Action action = processor.process();
+        Action action = processor.process(json);
         return action.execute();
     }
 

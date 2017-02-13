@@ -7,7 +7,6 @@ import com.liberty.soge.action.test.SecondTestAction;
 import com.liberty.soge.annotation.ActionTypes;
 import com.liberty.soge.annotation.Handler;
 
-// TODO: need scan all classes and interfaces marked this annotation
 @ActionTypes
 public interface SogeMessageType {
     
