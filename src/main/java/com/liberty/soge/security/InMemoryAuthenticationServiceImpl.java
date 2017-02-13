@@ -1,12 +1,8 @@
 package com.liberty.soge.security;
 
-import com.sun.security.auth.UserPrincipal;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author Dmytro_Kovalskyi.
@@ -19,12 +15,16 @@ public class InMemoryAuthenticationServiceImpl implements AuthenticationService 
     }};
 
     @Override
-    public Optional<Principal> login(String login, String password) {
+    public Optional<TokenAuthentication> login(String login, String password) {
         String toCheckPassword = users.get(login);
         if (toCheckPassword == null)
             return Optional.empty();
-        if (toCheckPassword.equals(password))
-            return Optional.of(new UserPrincipal(login));
+        if (toCheckPassword.equals(password)) {
+            UserAccount userAccount = new UserAccount("test-id", login, password);
+            TokenAuthentication authentication = new TokenAuthentication(UUID.randomUUID().toString(),
+                    Collections.emptyList(), true, userAccount);
+            return Optional.of(authentication);
+        }
         return Optional.empty();
     }
 }

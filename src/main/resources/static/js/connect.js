@@ -21,9 +21,10 @@ function performConnect() {
     socket = new SockJS('/updates');
     stompClient = Stomp.over(socket);
     stompClient.connect("test", "test", function (frame) {
+        debugger;
         setConnected();
         stompClient.subscribe('/topic/live', onUpdate);
-        stomp.subscribe('/user/' + frame.headers['user-name'] + '/notify', console.debug);
+        stompClient.subscribe('/user/' + frame.headers['user-name'] + '/notify', console.debug);
 
     });
 }

@@ -1,6 +1,5 @@
 package com.liberty.soge.security;
 
-import java.security.Principal;
 import java.util.Optional;
 
 /**
@@ -8,5 +7,5 @@ import java.util.Optional;
  * @since 13.02.2017.
  */
 public interface AuthenticationService {
-    Optional<Principal> login(String login, String password);
+    Optional<TokenAuthentication> login(String login, String password);
 }

@@ -1,25 +1,22 @@
 package com.liberty.soge.websockets;
 
 import com.liberty.soge.action.Action;
-import com.liberty.soge.common.GenericMessageProcessorImpl;
 import com.liberty.soge.common.GenericResponse;
 import com.liberty.soge.common.MessageProcessor;
 import com.liberty.soge.notification.NotificationBus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationListener;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.socket.messaging.SessionConnectedEvent;
 
 /**
  * User: Dimitr Date: 22.05.2016 Time: 21:36
  */
 @Controller
 @Slf4j
-public class FrontController implements NotificationBus, ApplicationListener<SessionConnectedEvent> {
+public class WebSocketFrontController implements NotificationBus {
 
     public static final String TOPIC_NAME = "/topic/live";
 
@@ -64,8 +61,5 @@ public class FrontController implements NotificationBus, ApplicationListener<Ses
         }
     }
 
-    @Override
-    public void onApplicationEvent(SessionConnectedEvent sessionConnectedEvent) {
-        log.info("On client connected");
-    }
+
 }
