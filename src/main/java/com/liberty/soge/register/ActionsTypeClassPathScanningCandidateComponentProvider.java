@@ -1,17 +1,14 @@
 package com.liberty.soge.register;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.annotation.PostConstruct;
-
+import com.liberty.soge.annotation.ActionTypes;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 
-import com.liberty.soge.annotation.ActionTypes;
-
-import lombok.extern.slf4j.Slf4j;
+import javax.annotation.PostConstruct;
+import java.util.HashSet;
+import java.util.Set;
 
 @Slf4j
 public class ActionsTypeClassPathScanningCandidateComponentProvider extends ClassPathScanningCandidateComponentProvider {
@@ -31,7 +28,7 @@ public class ActionsTypeClassPathScanningCandidateComponentProvider extends Clas
         try {
 			clazz = Class.forName(beanDefinition.getBeanClassName());
 			if(clazz.getAnnotation(ActionTypes.class) != null) {
-				return true;
+				return true;        
 			} 
 		} catch (ClassNotFoundException e) {
 			log.error("error during initialization", e);
