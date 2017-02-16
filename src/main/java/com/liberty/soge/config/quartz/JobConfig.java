@@ -45,7 +45,7 @@ public class JobConfig {
                 .forJob(pingJob())
                 .withIdentity("ping_trigger", "generic")
                 .withSchedule(simpleSchedule()
-                        .withIntervalInSeconds(5)
+                        .withIntervalInSeconds(5000)
                         .repeatForever())
                 .startNow()
                 .build();

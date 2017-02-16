@@ -3,6 +3,7 @@ package com.liberty.soge.rest;
 import com.liberty.soge.errors.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -39,6 +40,13 @@ public class ApplicationControllerExceptionHandler {
         log.error("Resource not found error on " + request.getRequestURL());
 
         return new ErrorResponse(HttpStatus.NOT_FOUND, e);
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(BadCredentialsException.class)
+    @ResponseBody
+    public ErrorResponse handleBadCredentialsException(HttpServletRequest request, BadCredentialsException e) {
+        return new ErrorResponse(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.value(), e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

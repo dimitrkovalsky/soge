@@ -6,7 +6,6 @@ import com.liberty.soge.common.JsonHelper;
 import com.liberty.soge.types.ResponseCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import static com.liberty.soge.types.SogeMessageType.SYSTEM_ERROR_NOTIFICATION;
 import static com.liberty.soge.types.SogeMessageType.SYSTEM_NOTIFICATION;
@@ -15,7 +14,7 @@ import static com.liberty.soge.types.SogeMessageType.SYSTEM_NOTIFICATION;
  * @author Dmytro_Kovalskyi.
  * @since 10.02.2017.
  */
-@Service
+//@Service
 @Slf4j
 public class WebSocketNotificationServiceImpl implements NotificationService {
 

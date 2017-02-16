@@ -9,12 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Controller;
 
 /**
  * User: Dimitr Date: 22.05.2016 Time: 21:36
  */
-@Controller
+//@Controller
 @Slf4j
 public class WebSocketFrontController implements NotificationBus {
 
