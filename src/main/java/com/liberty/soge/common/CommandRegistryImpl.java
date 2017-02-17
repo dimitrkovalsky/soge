@@ -1,19 +1,16 @@
 package com.liberty.soge.common;
 
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.liberty.soge.action.Action;
 import com.liberty.soge.annotation.Handler;
 import com.liberty.soge.register.ActionsTypeProvider;
-
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -37,6 +34,11 @@ public class CommandRegistryImpl implements CommandRegistry {
             log.error("" + e);
             return null;
         }
+    }
+
+    @Override
+    public Map<Integer, Class<? extends Action>> getAllCommands() {
+        return commands;
     }
 
     @PostConstruct

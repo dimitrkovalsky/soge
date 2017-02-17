@@ -1,6 +1,7 @@
 var authenticated = false;
 var sogeToken;
 var userId;
+var requestHandlers;
 
 function setAuthenticated() {
     authenticated = true;
@@ -123,5 +124,41 @@ function scrollDown() {
     scrollLog.scrollTop = scrollLog.scrollHeight;
 }
 
+function loadRequest(messageType) {
+   console.log("Loading " + messageType);
+   var handler  = getHandler(messageType);
+   var request = JSON.stringify({messageType: handler.messageType, data : handler.input});
+   $('#requestData').val(request);
+}
+
+function getHandler(messageType) {
+    for(var i in requestHandlers) {
+     if(requestHandlers[i].messageType == messageType){
+         return requestHandlers[i];
+     }
+    }
+}
 
 
+
+function loadHandlers() {
+    $.get( "/admin/handlers",null, function( data ) {
+        requestHandlers = data;
+        for(var i in data) {
+            $('#requestList').append(createHandlerElement(data[i].messageType, data[i].handlerClass, data[i].handlerFull));
+        }
+    });
+}
+
+function createHandlerElement(messageType, handlerClass, handlerFull) {
+     var element = '<div href="#" class="list-group-item">' +
+       '<strong class="list-group-item-heading" style="cursor: pointer;" '+ 'onclick="loadRequest(' + messageType  +')" ' +
+       'title="'+ handlerFull +'">'+
+       handlerClass +'</strong>' +
+        '<small class="list-group-item-text">'+ 'messageType:' + messageType +'</small>'+
+      '</div>';
+
+      return element;
+}
+
+loadHandlers();
