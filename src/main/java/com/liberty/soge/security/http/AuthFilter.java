@@ -24,7 +24,7 @@ import java.util.Optional;
 public class AuthFilter extends DelegatingFilterProxy {
 
 
-    public static final String TOKEN = "soge-token";
+    public static final String TOKEN = "Soge-Token";
 
     @Autowired
     private AuthenticationService authService;
