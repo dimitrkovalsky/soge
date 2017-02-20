@@ -6,7 +6,6 @@ import org.quartz.impl.JobDetailImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Component;
-import sun.reflect.misc.FieldUtil;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -52,7 +51,7 @@ public class EventGeneratorImpl implements EventGenerator {
     }
 
     private JobDataMap getDataMap(GameEvent event) {
-        FieldUtil
+        
         Map<String, String> data = new HashMap<>();
         data.put("userId", event.userId);
         return new JobDataMap(data);
