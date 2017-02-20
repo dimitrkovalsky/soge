@@ -1,7 +1,7 @@
-var authenticated = false;
-var sogeToken;
-var userId;
-var requestHandlers;
+window.authenticated = false;
+window.sogeToken;
+window.userId;
+window.requestHandlers;
 
 function setAuthenticated() {
     authenticated = true;
@@ -11,7 +11,7 @@ function setAuthenticated() {
 }
 
 function setLogout() {
-    authenticated = false;
+    window.authenticated = false;
     var btn = $('#auth_btn');
     btn.removeClass("btn-danger").addClass('btn-default');
     btn.text("login");
@@ -19,14 +19,14 @@ function setLogout() {
 
 function auth() {
     closeError();
-    if(!authenticated)
+    if(!window.authenticated)
         performAuth($('#login').val(), $('#password').val());
     else
         performLogout();
 }
 
 function performLogout() {
-    data = JSON.stringify({token: sogeToken});
+    data = JSON.stringify({token: window.sogeToken});
     $.ajax({
       type: "POST",
       url: "/auth/logout",
@@ -34,8 +34,8 @@ function performLogout() {
       data: data,
       error: onResponseError,
       success: function() {
-         sogeToken = null;
-         userId = null;
+         window.sogeToken = null;
+         window.userId = null;
          setLogout();
          $('#token').empty();
       }
@@ -47,9 +47,9 @@ function performAuth(login, password) {
     var request = JSON.stringify({ login: login, password: password });
 
     function onAuthComplete(data) {
-        sogeToken = data.token;
-        userId = data.userId;
-        $('#token').append("<div>token : <strong class='token''>" + sogeToken +"</strong></div>");
+        window.sogeToken = data.token;
+        window.userId = data.userId;
+        $('#token').append("<div>token : <strong class='token''>" + window.sogeToken +"</strong></div>");
         setAuthenticated();
     }
 
@@ -76,7 +76,7 @@ function closeError() {
 function sendRequest(){
     closeError();
     var data = $('#requestData').val();
-    if(!sogeToken){
+    if(!window.sogeToken){
         showError("Token can not be empty");
         return;
     }
@@ -84,7 +84,7 @@ function sendRequest(){
       type: "POST",
       url: "/api",
       headers: {
-       'Soge-Token' : sogeToken
+       'Soge-Token' : window.sogeToken
       },
       contentType:"application/json; charset=utf-8",
       data: data,
