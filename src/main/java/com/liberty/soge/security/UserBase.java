@@ -7,5 +7,7 @@ package com.liberty.soge.security;
 public interface UserBase<T> {
     T getUserId();
 
+    String getExternalUserId();
+
     String getUserName();
 }

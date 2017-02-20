@@ -1,4 +1,8 @@
-package com.liberty.soge.security;
+package com.liberty.soge.service;
+
+import com.liberty.soge.model.UserSession;
+import com.liberty.soge.security.TokenAuthentication;
+import com.liberty.soge.security.UserBase;
 
 import java.util.Optional;
 
@@ -12,4 +16,6 @@ public interface AuthenticationService<T> {
     void logout(String token);
 
     Optional<UserBase<T>> getUser(String token);
+
+    UserSession getCurrentUser();
 }

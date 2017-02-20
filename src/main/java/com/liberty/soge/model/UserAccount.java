@@ -13,7 +13,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserAccount implements UserBase<String> {
-     private String userId;
-     private String userName;
-    
+    private String userId;
+    private String externalUserId;
+    private String userName;
+
 }

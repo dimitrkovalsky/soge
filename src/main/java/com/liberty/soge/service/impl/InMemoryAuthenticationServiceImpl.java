@@ -1,11 +1,19 @@
-package com.liberty.soge.security;
+package com.liberty.soge.service.impl;
 
+import com.liberty.soge.gameword.DevelopmentStartedEvent;
+import com.liberty.soge.gameword.EventGenerator;
 import com.liberty.soge.model.UserAccount;
+import com.liberty.soge.model.UserSession;
+import com.liberty.soge.security.TokenAuthentication;
+import com.liberty.soge.security.UserBase;
+import com.liberty.soge.service.AuthenticationService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -18,6 +26,12 @@ import java.util.UUID;
 @Service
 @Slf4j
 public class InMemoryAuthenticationServiceImpl implements AuthenticationService<String> {
+    @Autowired
+    private EventGenerator eventGenerator;
+
+    @Autowired
+    private HttpSession httpSession;
+
     private Map<String, InMemoryUser> users = new HashMap<String, InMemoryUser>() {{
         put("test", new InMemoryUser("test", "test", "test-id"));
     }};
@@ -26,6 +40,13 @@ public class InMemoryAuthenticationServiceImpl implements AuthenticationService<
 
     @Override
     public Optional<TokenAuthentication<String>> login(String login, String password) {
+
+        eventGenerator.generateEvent(new DevelopmentStartedEvent("test-id", 42L),
+                System.currentTimeMillis() + 5000);
+        eventGenerator.generateEvent(new DevelopmentStartedEvent("test-id", 43L),
+                System.currentTimeMillis() + 5000);
+        eventGenerator.generateEvent(new DevelopmentStartedEvent("test-id2", 45L),
+                System.currentTimeMillis() + 7000);
         // TODO: if logged invalidate session
         InMemoryUser user = users.get(login);
         if (user == null)
@@ -54,7 +75,15 @@ public class InMemoryAuthenticationServiceImpl implements AuthenticationService<
         InMemoryUser inMemoryUser = activeUsers.get(token);
         if (inMemoryUser == null)
             return Optional.empty();
-        return Optional.of(new UserAccount(inMemoryUser.userId, inMemoryUser.getLogin()));
+        return Optional.of(new UserAccount(inMemoryUser.userId, "ext-id-" + inMemoryUser.userId,
+                inMemoryUser.getLogin()));
+    }
+
+    // TODO: implement
+    @Override
+    public UserSession<String> getCurrentUser() {
+        UserSession<String> userSession = new UserSession<>();
+        return userSession;
     }
 
     @Data

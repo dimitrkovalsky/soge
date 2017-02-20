@@ -1,6 +1,6 @@
 package com.liberty.soge.rest;
 
-import com.liberty.soge.security.AuthenticationService;
+import com.liberty.soge.service.AuthenticationService;
 import com.liberty.soge.security.TokenAuthentication;
 import com.liberty.soge.security.UserCredentials;
 import com.liberty.soge.security.UserToken;

@@ -1,6 +1,6 @@
 package com.liberty.soge.security.http;
 
-import com.liberty.soge.security.AuthenticationService;
+import com.liberty.soge.service.AuthenticationService;
 import com.liberty.soge.security.UserBase;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
