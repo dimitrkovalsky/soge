@@ -1,37 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.liberty</groupId>
     <artifactId>soge</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <properties>
-        <jdk.version>1.8</jdk.version>
-        <jackson.version>2.6.3</jackson.version>
-        <commons.version>3.4</commons.version>
-        <lombok.version>1.16.12</lombok.version>
-        <compiler.version>3.5.1</compiler.version>
-        <jdk.version>1.8</jdk.version>
-        <spring.version>4.2.5.RELEASE</spring.version>
-        <org.springframework.security-version>4.2.1.RELEASE</org.springframework.security-version>
-        <javax.servlet.version>3.1.0</javax.servlet.version>
-        <log4j.version>1.2.17</log4j.version>
-        <jcl-over-slf4j.version>1.7.21</jcl-over-slf4j.version>
-        <properties-maven-plugin.version>1.0.0</properties-maven-plugin.version>
-        <spring-jpa.version>1.9.4.RELEASE</spring-jpa.version>
-        <jackson-provider.version>2.7.3</jackson-provider.version>
-        <jackson-jaxrs.version>1.9.13</jackson-jaxrs.version>
-        <commons.version>3.4</commons.version>
-        <spring-mongo.version>1.8.4.RELEASE</spring-mongo.version>
-        <spring.version>4.3.6.RELEASE</spring.version>
-        <spring-boot-starter-web.version>1.4.4.RELEASE</spring-boot-starter-web.version>
-        <quartz.version>2.2.3</quartz.version>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.4.0.RELEASE</version>
+    </parent>
 
-        <spring-support.version>2.0.8</spring-support.version>
+    <properties>
+        <lombok.version>1.16.12</lombok.version>
+        <log4j.version>1.2.17</log4j.version>
+        <quartz.version>2.2.3</quartz.version>
         <bson.version>3.4.2</bson.version>
+        <quartz.mongodb>2.0.0-rc1</quartz.mongodb>
+        <commons.lang3>3.5</commons.lang3>
+        <validation.api>1.1.0.Final</validation.api>
     </properties>
 
     <repositories>
@@ -46,43 +35,51 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-            <version>${spring-boot-starter-web.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>${spring-boot-starter-web.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
-            <version>${spring-boot-starter-web.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
-            <version>${spring-boot-starter-web.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>${spring.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
-            <version>${spring-boot-starter-web.version}</version>
         </dependency>
         
-
-
-
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>bson</artifactId>
@@ -92,45 +89,38 @@
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
-            <version>${bson.version}</version>
         </dependency>
 
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-messaging</artifactId>
-            <version>${spring.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-websocket</artifactId>
-            <version>${spring.version}</version>
         </dependency>
 
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>${jackson.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>${jackson.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
             <scope>compile</scope>
         </dependency>
 
@@ -138,118 +128,106 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>${spring.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>${spring.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
-            <version>${spring.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-mongodb</artifactId>
-            <version>${spring-mongo.version}</version>
         </dependency>
 
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>${javax.servlet.version}</version>
             <scope>provided</scope>
         </dependency>
 
-
-        <!--Logging-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>${jcl-over-slf4j.version}</version>
         </dependency>
-
+        <!-- Binding for Log4J -->
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
-            <version>${jcl-over-slf4j.version}</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
         </dependency>
-
+        <!-- Log4j API and Core implementation required for binding -->
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${jcl-over-slf4j.version}</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>${log4j.version}</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
             <version>${quartz.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz-jobs</artifactId>
             <version>${quartz.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.novemberain</groupId>
             <artifactId>quartz-mongodb</artifactId>
-            <version>2.0.0</version>
+            <version>${quartz.mongodb}</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.5</version>
+            <version>${commons.lang3}</version>
         </dependency>
-
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
-            <version>1.9.3</version>
         </dependency>
-
-
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
-            <version>1.1.0.Final</version>
+            <version>${validation.api}</version>
         </dependency>
-
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>5.4.0.Final</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
-            <version>4.1.4.RELEASE</version>
         </dependency>
-
-
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
-
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>install</id>
+                        <phase>install</phase>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${compiler.version}</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
