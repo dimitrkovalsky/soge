@@ -1,6 +1,6 @@
 package com.liberty.soge.service.impl;
 
-import com.liberty.soge.gameword.DevelopmentStartedEvent;
+import com.liberty.soge.gameword.DevelopmentCompletedEvent;
 import com.liberty.soge.gameword.EventGenerator;
 import com.liberty.soge.model.UserAccount;
 import com.liberty.soge.model.UserSession;
@@ -41,11 +41,11 @@ public class InMemoryAuthenticationServiceImpl implements AuthenticationService<
     @Override
     public Optional<TokenAuthentication<String>> login(String login, String password) {
 
-        eventGenerator.generateEvent(new DevelopmentStartedEvent("test-id", 42L),
+        eventGenerator.generateEvent(new DevelopmentCompletedEvent("test-id", 42L),
                 System.currentTimeMillis() + 5000);
-        eventGenerator.generateEvent(new DevelopmentStartedEvent("test-id", 43L),
+        eventGenerator.generateEvent(new DevelopmentCompletedEvent("test-id", 43L),
                 System.currentTimeMillis() + 5000);
-        eventGenerator.generateEvent(new DevelopmentStartedEvent("test-id2", 45L),
+        eventGenerator.generateEvent(new DevelopmentCompletedEvent("test-id2", 45L),
                 System.currentTimeMillis() + 7000);
         // TODO: if logged invalidate session
         InMemoryUser user = users.get(login);

@@ -1,21 +1,23 @@
 package com.liberty.soge.gameword;
 
-import lombok.Getter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Dmytro_Kovalskyi.
  * @since 20.02.2017.
  */
-@Getter
-public class DevelopmentStartedEvent extends GameEvent {
+@Data
+@NoArgsConstructor
+public class DevelopmentCompletedEvent extends GameEvent {
     private Long developmentId;
 
-    public DevelopmentStartedEvent(String userId, Long developmentId) {
+    public DevelopmentCompletedEvent(String userId, Long developmentId) {
         super(userId);
         this.developmentId = developmentId;
     }
 
-    public DevelopmentStartedEvent(String userId) {
+    public DevelopmentCompletedEvent(String userId) {
         super(userId);
     }
 

@@ -1,5 +1,6 @@
 package com.liberty.soge.gameword;
 
+import com.liberty.soge.common.JsonHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.quartz.impl.JobDetailImpl;
@@ -21,9 +22,6 @@ import static org.quartz.TriggerBuilder.newTrigger;
 @Component
 public class EventGeneratorImpl implements EventGenerator {
 
-    public static final String SOGE_TRIGGER_GROUP = "soge-triggers";
-    public static final String SOGE_EVENTS_GROUP = "soge-events";
-
     @Autowired
     private SchedulerFactoryBean schedulerFactoryBean;
 
@@ -35,7 +33,7 @@ public class EventGeneratorImpl implements EventGenerator {
                 .startAt(new Date(eventTime))
                 .build();
         try {
-            schedulerFactoryBean.getScheduler().scheduleJob( gameJob(event), trigger);
+            schedulerFactoryBean.getScheduler().scheduleJob(gameJob(event), trigger);
         } catch (SchedulerException e) {
             log.error("generateEvent ", e);
         }
@@ -51,9 +49,17 @@ public class EventGeneratorImpl implements EventGenerator {
     }
 
     private JobDataMap getDataMap(GameEvent event) {
-        
-        Map<String, String> data = new HashMap<>();
-        data.put("userId", event.userId);
-        return new JobDataMap(data);
+        try {
+            Map<String, String> data = new HashMap<>();
+            String beanData = JsonHelper.toJsonString(event);
+            String className = event.getClass().getName();
+            data.put(BEAN_DATA_KEY, beanData);
+            data.put(CLASS_NAME_KEY, className);
+
+            return new JobDataMap(data);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return new JobDataMap();
+        }
     }
 }

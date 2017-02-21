@@ -46,12 +46,12 @@ public class JsonHelper {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> Optional<T> toEntity(String data, Class clazz) {
+    public static <T> T toEntity(String data, Class clazz) {
         try {
-            return Optional.of((T) objectMapper.readValue(data, clazz));
-        } catch (IOException e) {
+            return (T) toEntitySilently(data, clazz).get();
+        } catch (Exception e) {
             log.error("Unable convert to entry", e);
-            return Optional.empty();
+            return null;
         }
     }
 
