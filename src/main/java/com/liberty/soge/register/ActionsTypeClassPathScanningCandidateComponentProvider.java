@@ -1,14 +1,17 @@
 package com.liberty.soge.register;
 
-import com.liberty.soge.annotation.ActionTypes;
-import lombok.extern.slf4j.Slf4j;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 
-import javax.annotation.PostConstruct;
-import java.util.HashSet;
-import java.util.Set;
+import com.liberty.soge.annotation.ActionTypes;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ActionsTypeClassPathScanningCandidateComponentProvider extends ClassPathScanningCandidateComponentProvider implements ActionsTypeProvider {
