@@ -18,7 +18,7 @@ function setLogout() {
 }
 
 function auth() {
-    closeError();
+    closeNotifications();
     if(!window.authenticated)
         performAuth($('#login').val(), $('#password').val());
     else
@@ -43,7 +43,7 @@ function performLogout() {
 }
 
 function performAuth(login, password) {
-    closeError();
+    closeNotifications();
     var request = JSON.stringify({ login: login, password: password });
 
     function onAuthComplete(data) {
@@ -68,29 +68,22 @@ function showError(error) {
     $('#errorSpace').empty().append(error);
 }
 
-function closeError() {
+function showInfo(info) {
+    $('#infoSpace').css("display", "");
+    $('#infoSpace').empty().append(info);
+}
+
+function closeNotifications() {
     $('#errorSpace').empty();
     $('#errorSpace').css("display", "none");
+    $('#infoSpace').empty();
+    $('#infoSpace').css("display", "none");
 }
 
 function sendRequest(){
-    closeError();
+    closeNotifications();
     var data = $('#requestData').val();
-    if(!window.sogeToken){
-        showError("Token can not be empty");
-        return;
-    }
-    $.ajax({
-      type: "POST",
-      url: "/api",
-      headers: {
-       'Soge-Token' : window.sogeToken
-      },
-      contentType:"application/json; charset=utf-8",
-      data: data,
-      success: onRequestComplete,
-      error: onResponseError
-    });
+    sendPost("/api", data, onRequestComplete);
 }
 
 function onResponseError(XMLHttpRequest, textStatus, errorThrown) {
@@ -139,8 +132,6 @@ function getHandler(messageType) {
     }
 }
 
-
-
 function loadHandlers() {
     $.get( "/admin/handlers",null, function( data ) {
         requestHandlers = data;
@@ -159,6 +150,51 @@ function createHandlerElement(messageType, handlerClass, handlerFull) {
       '</div>';
 
       return element;
+}
+
+function generateModel() {
+     var modelName = $("#modelNameInput").val();
+     closeNotifications();
+     if(!modelName){
+        showError("Model name cannot be empty.");
+     } else {
+        sendGenerationRequest("model", modelName);
+     }
+}
+
+function generateRepository() {
+    var modelName = $("#repositoryNameInput").val();
+    closeNotifications();
+    if(!modelName){
+       showError("Repository name cannot be empty.");
+    } else {
+       sendGenerationRequest("repository", modelName);
+    }
+}
+
+function sendGenerationRequest(path, className) {
+    var data = JSON.stringify({className: className});
+    sendPost("/generator/generate/" + path, data, function(){
+        showInfo("Successfully generated " + className);
+    })
+}
+
+function sendPost(url, data, onRequestComplete) {
+  if(!window.sogeToken){
+      showError("Token can not be empty");
+      return;
+  }
+  $.ajax({
+    type: "POST",
+    url: url,
+    headers: {
+     'Soge-Token' : window.sogeToken
+    },
+    contentType:"application/json; charset=utf-8",
+    data: data,
+    success: onRequestComplete,
+    error: onResponseError
+  });
 }
 
 loadHandlers();

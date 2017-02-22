@@ -31,7 +31,6 @@ public class AuthenticationController {
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     public UserToken login(@RequestBody UserCredentials credentials) {
         // TODO: validate for null
-        codeGenerator.createModel("TestModel");
         Optional<TokenAuthentication<String>> login =
                 authenticationService.login(credentials.getLogin(), credentials.getPassword());
         if (login.isPresent()) {

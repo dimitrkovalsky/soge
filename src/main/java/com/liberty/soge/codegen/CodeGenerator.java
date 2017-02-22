@@ -34,13 +34,17 @@ public class CodeGenerator implements AnnotationDescription, TypeDescription {
     }
 
     public void createRepository(String modelName) {
+        if (modelName.contains("Repository")) {
+            modelName = modelName.replace("Repository", "");
+        }
         ensureModel(modelName);
         String className = modelName + "Repository";
+
         ClassName modelClassName = ClassName.get(context.getModelPackage(), modelName);
 
         ParameterizedTypeName superInterface = ParameterizedTypeName.get(MONGO_REPOSITORY_TYPE, modelClassName, STRING_TYPE);
 
-        TypeSpec typeSpec = TypeSpec.interfaceBuilder(className).addAnnotation(SPRING_REPOSITORY)//TODO: change package
+        TypeSpec typeSpec = TypeSpec.interfaceBuilder(className).addAnnotation(SPRING_REPOSITORY)
                 .addSuperinterface(superInterface).addModifiers(Modifier.PUBLIC).build();
         JavaFile javaFile = JavaFile.builder(context.getRepositoryPackage(), typeSpec).build();
         saver.saveGeneratedCode(javaFile);
@@ -48,6 +52,7 @@ public class CodeGenerator implements AnnotationDescription, TypeDescription {
     }
 
     private void ensureModel(String modelName) {
+
         if (saver.modelExists(modelName)) {
             log.info(String.format("Model %s exists...", modelName));
         } else {

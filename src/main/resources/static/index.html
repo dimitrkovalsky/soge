@@ -28,6 +28,14 @@
             Available requests
         </a>
     </span>
+        <div class="md-form">
+            <input type="text" class="form-control col-md-10" id="modelNameInput" value="">
+            <button class="btn btn-success waves-effect col-md-10" onclick="generateModel()">create model</button>
+            <input type="text" class="form-control col-md-10" id="repositoryNameInput" value="">
+            <button class="btn btn-success waves-effect col-md-10" onclick="generateRepository()">create repository
+            </button>
+        </div>
+
     </div>
     <div class="col-md-10 pull-right">
         <div class="card col-md-8">
@@ -35,6 +43,10 @@
                 SOGE Http
             </div>
             <div class="alert alert-danger alert-dismissible fade show" role="alert" id="errorSpace"
+                 style="display:none">
+            </div>
+
+            <div class="alert alert-info alert-dismissible fade show" role="alert" id="infoSpace"
                  style="display:none">
             </div>
             <div id="token"></div>
