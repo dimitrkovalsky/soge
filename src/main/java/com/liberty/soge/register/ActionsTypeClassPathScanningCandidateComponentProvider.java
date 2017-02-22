@@ -1,5 +1,6 @@
 package com.liberty.soge.register;
 
+import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,7 +10,9 @@ import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 
+import com.liberty.soge.action.Action;
 import com.liberty.soge.annotation.ActionTypes;
+import com.liberty.soge.annotation.Handler;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,6 +25,8 @@ public class ActionsTypeClassPathScanningCandidateComponentProvider extends Clas
     
     private Set<Class<?>> actionTypes;
     
+    private Set<Class<? extends Action>> actions = new HashSet<Class<? extends Action>>();
+    
     public ActionsTypeClassPathScanningCandidateComponentProvider() {
         super(true);
     }
@@ -32,8 +37,8 @@ public class ActionsTypeClassPathScanningCandidateComponentProvider extends Clas
         Class<?> clazz = null;
         try {
 			clazz = Class.forName(beanDefinition.getBeanClassName());
-			if(clazz.getAnnotation(ActionTypes.class) != null) {
-				return true;        
+			if(validate(clazz)) {
+				return true;
 			} 
 		} catch (ClassNotFoundException e) {
 			log.error("error during initialization", e);
@@ -41,6 +46,25 @@ public class ActionsTypeClassPathScanningCandidateComponentProvider extends Clas
         return false;
     }
     
+    private boolean validate(Class<?> clazz) {
+        if(clazz.getAnnotation(ActionTypes.class) == null) {
+            return false;
+        }
+        
+        for (Field f : clazz.getDeclaredFields()) {
+            Handler[] handlers = f.getAnnotationsByType(Handler.class);
+            for (Handler h : handlers) {
+                Class<? extends Action> actionClass = h.value();
+                if (!actions.add(actionClass)) {
+                    throw new RuntimeException("duplicate action detected action = " 
+                + actionClass 
+                + " inaction type = " + clazz);
+                }
+            }
+        }
+        return true;
+    }
+
     @PostConstruct
     public void init() throws ClassNotFoundException {
 
