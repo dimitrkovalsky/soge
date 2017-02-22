@@ -2,9 +2,8 @@ package com.liberty.soge.codegen;
 
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-
 import javax.annotation.PostConstruct;
+import java.io.File;
 
 import static org.apache.commons.lang3.ClassUtils.PACKAGE_SEPARATOR;
 
@@ -19,22 +18,23 @@ public class GeneratorContext {
     private static final String SERVICE_PACKAGE = "service";
     private static final String ACTION_PACKAGE = "action";
 
-    private String projectFolder;
+    private String sourceFolder;
     private String basePackage;
+
     private String basePackageFolder;
-    
+
     public GeneratorContext(String projectFolder, String basePackage) {
-        this.projectFolder = projectFolder;
+        this.sourceFolder = projectFolder + "src/main/java".replace("/", File.separator);
         this.basePackage = basePackage;
     }
-    
+
     @PostConstruct
     private void init() {
-        basePackageFolder = projectFolder + File.pathSeparator + packageToPath(basePackage);
+        basePackageFolder = sourceFolder + File.separator + packageToPath(basePackage);
     }
-    
+
     public String getModelFolder() {
-        return basePackageFolder + File.pathSeparator + MODEL_PACKAGE;
+        return basePackageFolder + File.separator + MODEL_PACKAGE;
     }
 
     public String getModelPackage() {
@@ -54,20 +54,22 @@ public class GeneratorContext {
     }
 
     public String getRepositoryFolder() {
-        return basePackageFolder + File.pathSeparator + REPOSITORY_PACKAGE;
+        return basePackageFolder + File.separator + REPOSITORY_PACKAGE;
     }
 
     public String getServiceFolder() {
-        return basePackageFolder + File.pathSeparator + SERVICE_PACKAGE;
+        return basePackageFolder + File.separator + SERVICE_PACKAGE;
     }
 
     public String getActionFolder() {
-        return basePackageFolder + File.pathSeparator + SERVICE_PACKAGE;
+        return basePackageFolder + File.separator + SERVICE_PACKAGE;
     }
 
     private String packageToPath(String packageName) {
-        return packageName.replace(PACKAGE_SEPARATOR, File.pathSeparator);
+        return packageName.replace(PACKAGE_SEPARATOR, File.separator);
     }
 
-
+    public String getSourceFolder() {
+        return sourceFolder;
+    }
 }

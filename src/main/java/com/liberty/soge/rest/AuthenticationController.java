@@ -1,5 +1,6 @@
 package com.liberty.soge.rest;
 
+import com.liberty.soge.codegen.CodeGenerator;
 import com.liberty.soge.service.AuthenticationService;
 import com.liberty.soge.security.TokenAuthentication;
 import com.liberty.soge.security.UserCredentials;
@@ -22,11 +23,15 @@ import java.util.Optional;
 public class AuthenticationController {
 
     @Autowired
+    private CodeGenerator codeGenerator;
+
+    @Autowired
     private AuthenticationService<String> authenticationService;
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     public UserToken login(@RequestBody UserCredentials credentials) {
         // TODO: validate for null
+        codeGenerator.createModel("TestModel");
         Optional<TokenAuthentication<String>> login =
                 authenticationService.login(credentials.getLogin(), credentials.getPassword());
         if (login.isPresent()) {

@@ -1,5 +1,6 @@
 package com.liberty.soge.config;
 
+import com.liberty.soge.codegen.GeneratorContext;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -38,6 +39,11 @@ public class BaseConfig extends AbstractMongoConfiguration {
     @Override
     protected String getMappingBasePackage() {
         return "com.liberty.soge.model";
+    }
+
+    @Bean
+    public GeneratorContext generatorContext(){
+        return new GeneratorContext("D:\\github\\soge\\", "com.liberty.soge");
     }
 
 
