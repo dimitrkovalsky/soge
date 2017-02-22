@@ -4,6 +4,8 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 
+import javax.annotation.PostConstruct;
+
 import static org.apache.commons.lang3.ClassUtils.PACKAGE_SEPARATOR;
 
 /**
@@ -19,13 +21,18 @@ public class GeneratorContext {
 
     private String projectFolder;
     private String basePackage;
-    private String basePackageFolder = projectFolder + File.pathSeparator + packageToPath(basePackage);
+    private String basePackageFolder;
     
     public GeneratorContext(String projectFolder, String basePackage) {
         this.projectFolder = projectFolder;
         this.basePackage = basePackage;
     }
-
+    
+    @PostConstruct
+    private void init() {
+        basePackageFolder = projectFolder + File.pathSeparator + packageToPath(basePackage);
+    }
+    
     public String getModelFolder() {
         return basePackageFolder + File.pathSeparator + MODEL_PACKAGE;
     }
