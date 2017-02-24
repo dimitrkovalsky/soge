@@ -172,9 +172,23 @@ function generateRepository() {
     }
 }
 
+function generateAction() {
+    var modelName = $("#actionNameInput").val();
+    var messageType = $("#messageTypeInput").val();
+    closeNotifications();
+    if(!modelName || !messageType){
+       showError("Action name or messageType cannot be empty.");
+    } else {
+        data = JSON.stringify({className: modelName, messageType: messageType});
+       sendPost("/generator/generate/action", data, function() {
+           showInfo("Successfully generated " + modelName + " action handler");
+       })
+    }
+}
+
 function sendGenerationRequest(path, className) {
     var data = JSON.stringify({className: className});
-    sendPost("/generator/generate/" + path, data, function(){
+    sendPost("/generator/generate/" + path, data, function() {
         showInfo("Successfully generated " + className);
     })
 }

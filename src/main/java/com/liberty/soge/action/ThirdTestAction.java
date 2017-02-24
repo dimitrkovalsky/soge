@@ -1,11 +1,15 @@
-package com.liberty.soge.action.test;
+package com.liberty.soge.action;
 
 
-import com.liberty.soge.action.Action;
+import com.liberty.soge.action.test.TestObject;
 import com.liberty.soge.common.GenericResponse;
 import com.liberty.soge.common.ResponseFactory;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class ThirdTestAction extends Action {
+
+   
 
     @Override
     public GenericResponse execute() {

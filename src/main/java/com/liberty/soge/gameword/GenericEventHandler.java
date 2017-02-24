@@ -23,4 +23,6 @@ public class GenericEventHandler {
     public void handleEvent(DevelopmentCompletedEvent event) {
         log.info("Trying to handle specific event : " + event);
     }
+
+
 }

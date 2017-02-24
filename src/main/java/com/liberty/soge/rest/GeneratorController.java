@@ -1,6 +1,7 @@
 package com.liberty.soge.rest;
 
 import com.liberty.soge.codegen.CodeGenerator;
+import com.liberty.soge.rest.request.GenerateActionRequest;
 import com.liberty.soge.rest.request.GenerateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,7 +36,7 @@ public class GeneratorController {
     }
 
     @RequestMapping(path = "/generate/action", method = RequestMethod.POST)
-    public void generateAction(@RequestBody GenerateRequest request) {
-        codeGenerator.createAction(request.getClassName());
+    public void generateAction(@RequestBody GenerateActionRequest request) {
+        codeGenerator.createAction(request.getClassName(), request.getMessageType());
     }
 }
