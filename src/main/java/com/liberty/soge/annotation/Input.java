@@ -7,4 +7,6 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value= ElementType.FIELD)
-public @interface Input { }
+public @interface Input { 
+    String value() default "";
+}

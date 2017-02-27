@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liberty.soge.action.Action;
-import com.liberty.soge.action.errors.InvalidRequestAction;
 import com.liberty.soge.action.errors.MalformedAction;
 import com.liberty.soge.action.errors.UnknownCommand;
 import com.liberty.soge.errors.ValidationException;
@@ -23,6 +22,9 @@ public class GenericMessageProcessorImpl implements MessageProcessor {
     @Autowired
     private CommandRegistry commandRegistry;
     
+    @Autowired
+    private InputDeserializer inputsDeserializer; 
+    
     public GenericMessageProcessorImpl() {
     }
     
@@ -39,17 +41,12 @@ public class GenericMessageProcessorImpl implements MessageProcessor {
 
         if ((action = getCommandObject(genericRequest)) == null)
             return new MalformedAction();
-
-        if (!validateBody(action)) {
-            return new InvalidRequestAction();
+        
+        if((action = inputsDeserializer.deserializeInput(action)) == null) {
+        	return new MalformedAction();
         }
 
         return action;
-    }
-
-    private boolean validateBody(Action action) {
-        BodyValidator validator = new BodyValidator();
-        return validator.validateBody(action);
     }
 
     private boolean validateBase(String json) {

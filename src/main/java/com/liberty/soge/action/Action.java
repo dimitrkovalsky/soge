@@ -4,6 +4,7 @@ import com.liberty.soge.common.GenericMessage;
 import com.liberty.soge.common.GenericResponse;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @author Dmytro_Kovalskyi.
@@ -11,6 +12,7 @@ import lombok.Setter;
  */
 @Setter
 @Getter
+@ToString
 public abstract class Action {
     protected GenericMessage request;
 

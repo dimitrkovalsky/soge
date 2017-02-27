@@ -14,10 +14,10 @@ public class TestObject {
     private String stringValue;
     private String hiddenString;
 
-    public TestObject() {
+    public TestObject(String message) {
         intValue = 100;
         floatValue = 3.14f;
-        stringValue = "Test string value";
+        stringValue = message;
         hiddenString = "Hidden String";
     }
 }
