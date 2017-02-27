@@ -2,8 +2,8 @@ package com.liberty.soge.config;
 
 import org.springframework.context.annotation.Configuration;
 
-import com.liberty.soge.annotation.EnableRequestScan;
+import com.liberty.soge.annotation.ActionTypesScan;
 
 @Configuration
-@EnableRequestScan(packages = { "com.liberty.soge.types" })
+@ActionTypesScan(packages = { "com.liberty.soge.types" })
 public class ActionTypesConfig {}

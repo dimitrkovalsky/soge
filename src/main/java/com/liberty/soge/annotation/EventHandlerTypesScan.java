@@ -7,12 +7,12 @@ import java.lang.annotation.Target;
 
 import org.springframework.context.annotation.Import;
 
-import com.liberty.soge.register.RequestScanBeanDefinitionRegister;
+import com.liberty.soge.register.events.EventHandlersScanBeanDefinitionRegister;
 
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Import(RequestScanBeanDefinitionRegister.class)
-public @interface EnableRequestScan {
+@Import(EventHandlersScanBeanDefinitionRegister.class)
+public @interface EventHandlerTypesScan {
     
     String[] packages();
     

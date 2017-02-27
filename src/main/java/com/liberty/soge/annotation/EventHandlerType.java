@@ -1,14 +1,15 @@
 package com.liberty.soge.annotation;
 
-import com.liberty.soge.action.Action;
-
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.springframework.stereotype.Component;
+
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value= ElementType.FIELD)
-public @interface Handler {
-    public Class<? extends Action> value();
-}
+@Documented
+@Component
+public @interface EventHandlerType {}
