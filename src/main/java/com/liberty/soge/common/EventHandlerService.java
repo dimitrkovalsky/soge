@@ -2,6 +2,6 @@ package com.liberty.soge.common;
 
 import com.liberty.soge.gameword.GameEvent;
 
-public interface EventHandler {
+public interface EventHandlerService {
     void handle(GameEvent event);
 }

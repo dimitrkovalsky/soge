@@ -6,7 +6,7 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.type.AnnotationMetadata;
 
-import com.liberty.soge.annotation.EventHandlerTypesScan;
+import com.liberty.soge.annotation.EventHandlersTypeScan;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,7 +21,7 @@ public class EventHandlersScanBeanDefinitionRegister implements ImportBeanDefini
         } catch (ClassNotFoundException e) {
             log.error("error during initialization", e);
         }
-        EventHandlerTypesScan eventHandlerTypesScan = clazz.getAnnotation(EventHandlerTypesScan.class);
+        EventHandlersTypeScan eventHandlerTypesScan = clazz.getAnnotation(EventHandlersTypeScan.class);
         if(eventHandlerTypesScan != null) {
             String[] packages = eventHandlerTypesScan.packages();
             BeanDefinition bd = new RootBeanDefinition(EventHandlersCandidateClassPathScanningComponentProvider.class);

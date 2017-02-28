@@ -2,7 +2,7 @@ package com.liberty.soge.gameword;
 
 
 import com.liberty.soge.annotation.EventHandler;
-import com.liberty.soge.annotation.EventHandlerType;
+import com.liberty.soge.annotation.EventHandlersType;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
  * @since 21.02.2017.
  */
 @Slf4j
-@EventHandlerType
+@EventHandlersType
 public class GenericEventHandler {
 
     @EventHandler(GameEvent.class)

@@ -60,7 +60,7 @@ public class ActionTypesCandidateClassPathScanningComponentProvider extends Clas
                 if (!actions.add(actionClass)) {
                     throw new RuntimeException("duplicate action detected action = " 
                 + actionClass 
-                + " inaction type = " + clazz);
+                + " in action type = " + clazz);
                 }
             }
         }

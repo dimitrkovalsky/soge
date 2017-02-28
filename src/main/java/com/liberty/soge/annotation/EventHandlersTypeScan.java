@@ -12,7 +12,7 @@ import com.liberty.soge.register.events.EventHandlersScanBeanDefinitionRegister;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Import(EventHandlersScanBeanDefinitionRegister.class)
-public @interface EventHandlerTypesScan {
+public @interface EventHandlersTypeScan {
     
     String[] packages();
     
