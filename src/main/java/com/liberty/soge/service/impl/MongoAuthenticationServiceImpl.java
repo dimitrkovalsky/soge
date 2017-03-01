@@ -39,4 +39,9 @@ public class MongoAuthenticationServiceImpl implements AuthenticationService<Str
     public UserSession<String> getCurrentUser() {
         return null;
     }
+
+    @Override
+    public Optional<UserSession<String>> getUserSessionByUserId(String userId) {
+        return null;
+    }
 }

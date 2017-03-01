@@ -18,4 +18,6 @@ public interface AuthenticationService<T> {
     Optional<UserBase<T>> getUser(String token);
 
     UserSession getCurrentUser();
+
+    Optional<UserSession<T>> getUserSessionByUserId(T userId);
 }

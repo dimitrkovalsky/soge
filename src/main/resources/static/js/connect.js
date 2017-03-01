@@ -6,26 +6,18 @@ function onError(error) {
 }
 function setConnected() {
     connected = true;
-    var btn = $('#connect_btn');
-    btn.removeClass('btn-default').addClass("btn-danger");
-    btn.text("Disconnect");
 }
 
 function setDisconnected() {
     connected = false;
-    var btn = $('#connect_btn');
-    btn.removeClass("btn-danger").addClass('btn-default');
-    btn.text("Connect");
 }
 function performConnect() {
-    socket = new SockJS('/updates');
+    socket = new SockJS('/notifications');
     stompClient = Stomp.over(socket);
     stompClient.connect("test", "test", function (frame) {
-        debugger;
         setConnected();
-        stompClient.subscribe('/topic/live', onUpdate);
-        stompClient.subscribe('/user/' + frame.headers['user-name'] + '/notify', console.debug);
-
+        stompClient.subscribe('/topic/broadcast', onBroadcast);
+        stompClient.subscribe('/user/' + window.sogeToken + '/notify', onBroadcast);
     });
 }
 function connect() {
@@ -35,9 +27,10 @@ function connect() {
         performConnect();
     }
 }
-function onUpdate(frame) {
+function onBroadcast(frame) {
     //var msg = JSON.parse(frame.body);
-    addLog(frame.body);
+    // addLog(frame.body);
+    console.log(frame.body);
 }
 
 function performDisconnect() {
@@ -48,26 +41,6 @@ function performDisconnect() {
         console.log("Disconnected");
     });
 }
-function sendRequest() {
-    var request = $('#requestData').val();
-    stompClient.send("/user/requests", {priority: 9}, request);
-}
 
-function addLog(msg) {
-    console.log("Message : " + msg);
-    var logList = $('#logList');
-    logList.append('<li>' + msg + '</li>');
-    logList.scrollTop = logList.scrollHeight;
-}
-
-var defaultRequest = {
-    messageType: 1,
-    data: null
-};
-
-function setDefaultRequest() {
-    var msg = JSON.stringify(defaultRequest);
-    $('#requestData').val(msg);
-}
-setDefaultRequest();
+// performConnect();
 

@@ -86,6 +86,20 @@ public class InMemoryAuthenticationServiceImpl implements AuthenticationService<
         return userSession;
     }
 
+    @Override
+    public Optional<UserSession<String>> getUserSessionByUserId(String userId) {
+        Optional<UserSession<String>> user = Optional.empty();
+        for (Map.Entry<String, InMemoryUser> userEntry : activeUsers.entrySet()) {
+            if (userEntry.getValue().getUserId().equals(userId)) {
+                user = Optional.of(new UserSession<String>(userEntry.getKey(), userId));
+                break;
+            }
+
+        }
+
+        return user;
+    }
+
     @Data
     @AllArgsConstructor
     private class InMemoryUser {

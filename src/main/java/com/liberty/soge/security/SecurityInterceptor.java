@@ -5,15 +5,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptorAdapter;
 import org.springframework.messaging.support.MessageHeaderAccessor;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Dmytro_Kovalskyi.
  * @since 13.02.2017.
  */
-//@Component
+@Component
 @Slf4j
 public class SecurityInterceptor extends ChannelInterceptorAdapter {
 
@@ -24,20 +26,12 @@ public class SecurityInterceptor extends ChannelInterceptorAdapter {
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
 
         StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
-//
-//        if (StompCommand.CONNECT.equals(accessor.getCommand())) {
-//            String login = accessor.getLogin();
-//            String password = accessor.getPasscode();
-//            Optional<TokenAuthentication> principal = authenticationService.login(login, password);
-//            if (principal.isPresent()) {
-//                TokenAuthentication authentication = principal.get();
-//                accessor.setUser(authentication);
-//                accessor.addNativeHeader("token", authentication.getToken());
-//                log.info("Logged as " + principal.get().getName());
-//            } else
-//                return null;
-//        }
-       // message.getHeaders().
+
+        if (StompCommand.CONNECT.equals(accessor.getCommand())) {
+            String loginToken = accessor.getLogin();
+            log.info("Logged as " + loginToken);
+          
+        }
         return message;
     }
 }
