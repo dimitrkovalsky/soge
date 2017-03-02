@@ -1,8 +1,9 @@
 package com.liberty.soge.register.events;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -29,9 +30,11 @@ public class EventHandlersCandidateClassPathScanningComponentProvider extends Cl
     
     private Set<BeanDefinition> beanDefinitions;
     
-    private Set<Class<?>> eventHandlers;
+    private Set<Class<?>> eventHandlers = new HashSet<Class<?>>();
     
-    private Set<Class<?>> handlers = new HashSet<Class<?>>();
+    private Set<Class<?>> eventHandlerTypes = new HashSet<Class<?>>();
+    
+    private Map<Class<? extends GameEvent>, Pair<Class<?>, Method>> eventHandlerTypesMaping = new HashMap<>();
     
     public EventHandlersCandidateClassPathScanningComponentProvider() {
         super(true);
@@ -40,17 +43,11 @@ public class EventHandlersCandidateClassPathScanningComponentProvider extends Cl
     @PostConstruct
     public void init() throws ClassNotFoundException {
         beanDefinitions = new HashSet<BeanDefinition>();
-
+        
         for (String p : packages) {
-            beanDefinitions.addAll(findCandidateComponents(p));
+            findCandidateComponents(p);
         }
         
-        eventHandlers = new HashSet<Class<?>>();
-        
-        for (BeanDefinition bd : beanDefinitions) {
-            eventHandlers.add(Class.forName(bd.getBeanClassName()));
-        }
-
         log.info("detected action types" + beanDefinitions);
 
     }
@@ -71,8 +68,8 @@ public class EventHandlersCandidateClassPathScanningComponentProvider extends Cl
     }
     
     @Override
-    public Set<Class<?>> getEventHandlers() {
-        return eventHandlers;
+    public Map<Class<? extends GameEvent>, Pair<Class<?>, Method>> getEventHandlerTypesMaping() {
+        return eventHandlerTypesMaping;
     }
     
     private boolean validate(Class<?> clazz) {
@@ -80,15 +77,21 @@ public class EventHandlersCandidateClassPathScanningComponentProvider extends Cl
             return false;
         }
         
-        for (Field f : clazz.getDeclaredFields()) {
-            EventHandler[] bindedHandlers = f.getAnnotationsByType(EventHandler.class);
-            for (EventHandler h : bindedHandlers) {
-                Class<? extends GameEvent> handlerClass = h.value();
-                if (!handlers.add(handlerClass)) {
+        if(!eventHandlerTypes.add(clazz)) {
+            throw new RuntimeException("duplicate event handler type = " + clazz.getName());
+        }
+        
+        for (Method method : clazz.getDeclaredMethods()) {
+            if(method.isAnnotationPresent(EventHandler.class)) {
+                EventHandler eventHandler = method.getAnnotation(EventHandler.class);
+                Class<? extends GameEvent> handlerClass = eventHandler.value();
+                if (!eventHandlers.add(handlerClass)) {
                     throw new RuntimeException("duplicate event handler detected handler = " 
                 + handlerClass 
                 + " in handlers type = " + clazz);
                 }
+                
+                eventHandlerTypesMaping.put(handlerClass, new Pair<Class<?>, Method>(clazz, method));
             }
         }
         return true;

@@ -1,7 +1,11 @@
 package com.liberty.soge.register.events;
 
-import java.util.Set;
+import java.lang.reflect.Method;
+import java.util.Map;
+
+import com.liberty.soge.gameword.GameEvent;
+import com.liberty.soge.util.Pair;
 
 public interface EventHandlersProvider {
-    public Set<Class<?>> getEventHandlers();
+    public Map<Class<? extends GameEvent>, Pair<Class<?>, Method>> getEventHandlerTypesMaping();
 }

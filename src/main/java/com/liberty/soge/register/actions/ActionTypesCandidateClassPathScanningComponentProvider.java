@@ -14,11 +14,13 @@ import com.liberty.soge.action.Action;
 import com.liberty.soge.annotation.ActionTypes;
 import com.liberty.soge.annotation.BindActionToId;
 
-import lombok.ToString;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@ToString
+@Data
+@EqualsAndHashCode(callSuper=false)
 public class ActionTypesCandidateClassPathScanningComponentProvider extends ClassPathScanningCandidateComponentProvider implements ActionTypesProvider {
     
     private String[] packages;
@@ -83,23 +85,6 @@ public class ActionTypesCandidateClassPathScanningComponentProvider extends Clas
         }
 
         log.info("detected action types" + beanDefinitions);
-    }
-    
-    public String[] getPackages() {
-        return packages;
-    }
-
-    public void setPackages(String[] packages) {
-        this.packages = packages;
-    }
-
-    public Set<BeanDefinition> getBeanDefinitions() {
-        return beanDefinitions;
-    }
-
-    @Override
-    public Set<Class<?>> getActionTypes() {
-        return actionTypes;
     }
     
 }
