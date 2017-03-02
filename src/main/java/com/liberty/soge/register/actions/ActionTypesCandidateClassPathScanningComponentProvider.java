@@ -1,4 +1,4 @@
-package com.liberty.soge.register;
+package com.liberty.soge.register.actions;
 
 import java.lang.reflect.Field;
 import java.util.HashSet;
@@ -12,12 +12,16 @@ import org.springframework.context.annotation.ClassPathScanningCandidateComponen
 
 import com.liberty.soge.action.Action;
 import com.liberty.soge.annotation.ActionTypes;
-import com.liberty.soge.annotation.Handler;
+import com.liberty.soge.annotation.BindActionToId;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class ActionsTypeClassPathScanningCandidateComponentProvider extends ClassPathScanningCandidateComponentProvider implements ActionsTypeProvider {
+@Data
+@EqualsAndHashCode(callSuper=false)
+public class ActionTypesCandidateClassPathScanningComponentProvider extends ClassPathScanningCandidateComponentProvider implements ActionTypesProvider {
     
     private String[] packages;
     
@@ -27,7 +31,7 @@ public class ActionsTypeClassPathScanningCandidateComponentProvider extends Clas
     
     private Set<Class<? extends Action>> actions = new HashSet<Class<? extends Action>>();
     
-    public ActionsTypeClassPathScanningCandidateComponentProvider() {
+    public ActionTypesCandidateClassPathScanningComponentProvider() {
         super(true);
     }
 
@@ -36,13 +40,13 @@ public class ActionsTypeClassPathScanningCandidateComponentProvider extends Clas
         log.info("candidate = " + beanDefinition);
         Class<?> clazz = null;
         try {
-			clazz = Class.forName(beanDefinition.getBeanClassName());
-			if(validate(clazz)) {
-				return true;
-			} 
-		} catch (ClassNotFoundException e) {
-			log.error("error during initialization", e);
-		}
+            clazz = Class.forName(beanDefinition.getBeanClassName());
+            if(validate(clazz)) {
+                return true;
+            }
+        } catch (ClassNotFoundException e) {
+            log.error("error during initialization", e);
+        }
         return false;
     }
     
@@ -52,13 +56,13 @@ public class ActionsTypeClassPathScanningCandidateComponentProvider extends Clas
         }
         
         for (Field f : clazz.getDeclaredFields()) {
-            Handler[] handlers = f.getAnnotationsByType(Handler.class);
-            for (Handler h : handlers) {
-                Class<? extends Action> actionClass = h.value();
+            BindActionToId[] bindedActions = f.getAnnotationsByType(BindActionToId.class);
+            for (BindActionToId a : bindedActions) {
+                Class<? extends Action> actionClass = a.value();
                 if (!actions.add(actionClass)) {
                     throw new RuntimeException("duplicate action detected action = " 
                 + actionClass 
-                + " inaction type = " + clazz);
+                + " in action type = " + clazz);
                 }
             }
         }
@@ -81,23 +85,6 @@ public class ActionsTypeClassPathScanningCandidateComponentProvider extends Clas
         }
 
         log.info("detected action types" + beanDefinitions);
-    }
-    
-    public String[] getPackages() {
-        return packages;
-    }
-
-    public void setPackages(String[] packages) {
-        this.packages = packages;
-    }
-
-    public Set<BeanDefinition> getBeanDefinitions() {
-        return beanDefinitions;
-    }
-
-    @Override
-    public Set<Class<?>> getActionTypes() {
-        return actionTypes;
     }
     
 }

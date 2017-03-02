@@ -13,6 +13,8 @@ import lombok.Data;
 @Validatable
 public class TestInputType {
     
+    //sample {"messageType":5,"data":{"message":"test@gmail.com","num":4}}
+    
     @NotNull
     @Email
     private String message;

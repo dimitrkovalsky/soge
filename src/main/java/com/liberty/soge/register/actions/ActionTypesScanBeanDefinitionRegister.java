@@ -1,6 +1,6 @@
-package com.liberty.soge.register;
+package com.liberty.soge.register.actions;
 
-import com.liberty.soge.annotation.EnableRequestScan;
+import com.liberty.soge.annotation.ActionTypesScan;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.type.AnnotationMetadata;
 
 @Slf4j
-public class RequestScanBeanDefinitionRegister implements ImportBeanDefinitionRegistrar {
+public class ActionTypesScanBeanDefinitionRegister implements ImportBeanDefinitionRegistrar {
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
@@ -19,13 +19,13 @@ public class RequestScanBeanDefinitionRegister implements ImportBeanDefinitionRe
         } catch (ClassNotFoundException e) {
             log.error("error during initialization", e);
         }
-        EnableRequestScan requestScan = clazz.getAnnotation(EnableRequestScan.class);
-                if(requestScan != null) {
-                    String[] packages = requestScan.packages();
-                    BeanDefinition bd = new RootBeanDefinition(ActionsTypeClassPathScanningCandidateComponentProvider.class);
-                    bd.getPropertyValues().addPropertyValue("packages", packages);
-                    registry.registerBeanDefinition("actionsTypeScanningProvider", bd);
-                }
+        ActionTypesScan actionTypesScan = clazz.getAnnotation(ActionTypesScan.class);
+        if(actionTypesScan != null) {
+            String[] packages = actionTypesScan.packages();
+            BeanDefinition bd = new RootBeanDefinition(ActionTypesCandidateClassPathScanningComponentProvider.class);
+            bd.getPropertyValues().addPropertyValue("packages", packages);
+            registry.registerBeanDefinition("actionsTypesProvider", bd);
+        }
     }
 
 }

@@ -4,9 +4,9 @@ import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.google.common.base.CaseFormat;
-import com.liberty.soge.annotation.Handler;
+import com.liberty.soge.annotation.BindActionToId;
 import com.liberty.soge.common.ResponseFactory;
-import com.liberty.soge.register.ActionsTypeProvider;
+import com.liberty.soge.register.actions.ActionTypesProvider;
 import com.liberty.soge.types.SogeMessageType;
 import com.squareup.javapoet.*;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +34,7 @@ public class CodeGenerator implements AnnotationDescription, TypeDescription {
     private GeneratorContext context;
 
     @Autowired
-    private ActionsTypeProvider actionsTypeProvider;
+    private ActionTypesProvider actionsTypeProvider;
 
     @Autowired
     private FileSaver saver;
@@ -120,7 +120,7 @@ public class CodeGenerator implements AnnotationDescription, TypeDescription {
 
             parsed.getNodesByType(FieldDeclaration.class).forEach(field -> {
                 String fieldName = field.getVariables().get(0).getName().getIdentifier();
-                String actionHandlerName = field.getAnnotationByClass(Handler.class).get()
+                String actionHandlerName = field.getAnnotationByClass(BindActionToId.class).get()
                         .getChildNodes().get(1).toString().replace(".class", "");
                 int value = Integer.parseInt(field.getVariables().get(0).getInitializer().get().toString());
                 FieldSpec fieldSpec = getMessageTypeField(fieldName, actionHandlerName, value);

@@ -21,7 +21,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Runner {
 
     public static void main(String[] args) {
-        log.info("Application started...");
         SpringApplication application = new SpringApplication(Runner.class);
         application.run(args);
         log.info("Application started...");
