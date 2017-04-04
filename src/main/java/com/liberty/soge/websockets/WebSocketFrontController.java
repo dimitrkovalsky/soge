@@ -1,15 +1,19 @@
 package com.liberty.soge.websockets;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+
 import com.liberty.soge.common.GenericResponse;
 import com.liberty.soge.model.UserSession;
 import com.liberty.soge.notification.NotificationBus;
 import com.liberty.soge.service.AuthenticationService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Controller;
 
-import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * User: Dimitr Date: 22.05.2016 Time: 21:36
@@ -39,6 +43,7 @@ public class WebSocketFrontController implements NotificationBus {
     @Override
     public void sendUser(String userId, GenericResponse msg) {
         if (template != null) {
+            String user = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             Optional<UserSession<String>> session = authenticationService.getUserSessionByUserId(userId);
             if (session.isPresent())
                 template.convertAndSend(String.format(USER_NOTIFICATIONS, session.get().getToken()), msg);

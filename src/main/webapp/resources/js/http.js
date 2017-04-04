@@ -86,6 +86,7 @@ function closeNotifications() {
 }
 
 function sendRequest() {
+	console.log('click');
     closeNotifications();
     var data = $('#requestData').val();
     sendPost("/api", data, onRequestComplete);
@@ -199,16 +200,16 @@ function sendGenerationRequest(path, className) {
 }
 
 function sendPost(url, data, onRequestComplete) {
-    if (!window.sogeToken) {
-        showError("Token can not be empty");
-        return;
-    }
+//    if (!window.sogeToken) {
+//        showError("Token can not be empty");
+//        return;
+//    }
     $.ajax({
         type: "POST",
         url: url,
-        headers: {
-            'Soge-Token': window.sogeToken
-        },
+//        headers: {
+//            'Soge-Token': window.sogeToken
+//        },
         contentType: "application/json; charset=utf-8",
         data: data,
         success: onRequestComplete,

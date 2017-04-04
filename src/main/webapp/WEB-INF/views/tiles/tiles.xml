@@ -4,8 +4,7 @@
 <tiles-definitions>
 
     <!-- Base Definition -->
-    <definition name="base-definition"
-        template="/WEB-INF/views/tiles/layouts/defaultLayout.jsp">
+    <definition name="base-definition" template="/WEB-INF/views/tiles/layouts/defaultLayout.jsp">
         <put-attribute name="title" value="" />
         <put-attribute name="header" value="/WEB-INF/views/tiles/template/defaultHeader.jsp" />
         <put-attribute name="sidebar" value="/WEB-INF/views/tiles/template/defaultSidebar.jsp" />
@@ -15,14 +14,17 @@
 
     <!-- Home Page -->
     
-    <definition name="signin" extends="base-definition">
-        <put-attribute name="title" value="Sign in" />
-        <put-attribute name="body" value="/WEB-INF/views/pages/signin.jsp" />
+    <definition name="signin" template="/WEB-INF/views/pages/signin.jsp">
     </definition>
     
     <definition name="index" extends="base-definition">
         <put-attribute name="title" value="Api Explorer" />
-        <put-attribute name="body" value="/WEB-INF/views/pages/index.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/pages/api-explorer.jsp" />
+    </definition>
+    
+    <definition name="test" extends="base-definition">
+        <put-attribute name="title" value="Test part" />
+        <put-attribute name="body" value="/WEB-INF/views/pages/test.jsp" />
     </definition>
 
 </tiles-definitions>

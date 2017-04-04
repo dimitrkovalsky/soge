@@ -20,7 +20,7 @@ import java.util.Optional;
  * Filter for resolving and refreshing authentication using OKTA token cookie.
  */
 @Slf4j
-@Component
+//@Component
 public class AuthFilter extends DelegatingFilterProxy {
 
 
