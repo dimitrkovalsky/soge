@@ -18,12 +18,16 @@ function setLogout() {
     btn.text("login");
 }
 
+//function auth() {
+//    closeNotifications();
+//    if (!window.authenticated)
+//        performAuth($('#login').val(), $('#password').val());
+//    else
+//        performLogout();
+//}
+
 function auth() {
-    closeNotifications();
-    if (!window.authenticated)
-        performAuth($('#login').val(), $('#password').val());
-    else
-        performLogout();
+    performAuth($('#login').val(), $('#password').val());
 }
 
 function performLogout() {
@@ -56,7 +60,7 @@ function performAuth(login, password) {
 
     $.ajax({
         type: "POST",
-        url: "/auth/login",
+        url: "/j_spring_security_check",
         contentType: "application/json; charset=utf-8",
         data: request,
         success: onAuthComplete,
@@ -82,6 +86,7 @@ function closeNotifications() {
 }
 
 function sendRequest() {
+	console.log('click');
     closeNotifications();
     var data = $('#requestData').val();
     sendPost("/api", data, onRequestComplete);
@@ -195,16 +200,16 @@ function sendGenerationRequest(path, className) {
 }
 
 function sendPost(url, data, onRequestComplete) {
-    if (!window.sogeToken) {
-        showError("Token can not be empty");
-        return;
-    }
+//    if (!window.sogeToken) {
+//        showError("Token can not be empty");
+//        return;
+//    }
     $.ajax({
         type: "POST",
         url: url,
-        headers: {
-            'Soge-Token': window.sogeToken
-        },
+//        headers: {
+//            'Soge-Token': window.sogeToken
+//        },
         contentType: "application/json; charset=utf-8",
         data: data,
         success: onRequestComplete,

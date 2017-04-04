@@ -1,29 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Api Explorer</title>
-</head>
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="css/tether.min.css">
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/mdb.min.css">
-<link rel="stylesheet" href="css/style.css">
-
-<script src="lib/jquery-2.2.3.js"></script>
-<script src="lib/tether.min.js"></script>
-<script src="lib/bootstrap.min.js"></script>
-<script src="lib/mdb.min.js"></script>
-
-<script src="js/http.js"></script>
-<script src="lib/sockjs.js"></script>
-<script src="lib/stomp.js"></script>
-<script src="js/connect.js"></script>
-
-
-<body>
-
 <div class="container col-md-12" style="margin-top:10px">
     <div class="col-md-2 pull-left">
     <span class="list-group col-md-10" id="requestList">
@@ -53,24 +27,6 @@
             <div class="card-header primary-color white-text">
                 SOGE Http
             </div>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert" id="errorSpace"
-                 style="display:none">
-            </div>
-
-            <div class="alert alert-info alert-dismissible fade show" role="alert" id="infoSpace"
-                 style="display:none">
-            </div>
-            <div id="token"></div>
-
-            <div class="md-form input-group">
-                <input type="text" class="form-control" value="http://localhost:7777" disabled>
-            </div>
-            <div class="md-form input-group">
-                <input type="text" id="login" class="form-control" value="test">
-                <input type="password" id="password" class="form-control" value="test">
-                <span class="input-group-btn">
-                <button class="btn btn-success waves-effect" id="auth_btn" onclick="auth()">login</button>
-            </span>
             </div>
 
             <h5>Request</h5>
@@ -88,7 +44,4 @@
                 </ul>
             </div>
         </div>
-    </div>
 </div>
-</body>
-</html>
