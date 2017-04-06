@@ -61,7 +61,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
                     throws IOException, ServletException {
                 log.warn("authentication failed");
-                //response.sendError( HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized Access!" );
                 response.sendRedirect("/signin");
             }};
     }

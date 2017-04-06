@@ -29,13 +29,13 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+        registry.addResourceHandler("/resources/**").addResourceLocations("classpath:/META-INF/resources/");
     }
     
     @Bean
     public TilesConfigurer tilesConfigurer(){
         TilesConfigurer tilesConfigurer = new TilesConfigurer();
-        tilesConfigurer.setDefinitions(new String[] {"/WEB-INF/views/tiles/tiles.xml"});
+        tilesConfigurer.setDefinitions(new String[] {"/WEB-INF/tiles.xml"});
         tilesConfigurer.setCheckRefresh(true);
         return tilesConfigurer;
     }
